@@ -1,0 +1,22 @@
+.new-task-form__input {
+    min-width: 100%;
+    border: solid 1px rgba(229, 231, 235, 1);
+    border-radius: 5px;
+    outline: none;
+    background-color: #F9FAFB;
+    color: #000000;
+    padding: 10px 15px;
+    margin-bottom: 18px;
+    font-size: 18px;
+    resize: none;
+}
+
+.new-task-form__input:focus {
+    border: 1px solid #546FFF;
+    transition: border ease-in-out 0.3s;
+}
+
+.new-task-form__input::placeholder {
+    color: #000000;
+    opacity: 0.3;
+}

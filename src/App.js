@@ -4,6 +4,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import NotFoundPage from './component/NotFoundPage/NotFoundPage';
 import LoginPage from './component/LoginPage/LoginPage';
 import TaskPage from './component/TaskPage/TaskPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   useNavigate();

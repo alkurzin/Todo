@@ -9,3 +9,16 @@ export const getTasks = () => {
             });
     }
 }
+
+export const newTaskCreate = (title, description, priority) => {
+    return async dispatch => {
+        await request.post('/Task', {
+            userId: localStorage.getItem('userId'),
+            title: title,
+            description: description,
+            priority: priority
+        })
+        .then(res => dispatch(getTasks()))
+    }
+}
+

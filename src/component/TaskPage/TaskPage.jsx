@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import { CheckCircle, Circle } from 'react-bootstrap-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { completed, getTasks, notCompleted } from '../../asyncAction/task';
+import { completed, getTask, getTasks, notCompleted } from '../../asyncAction/task';
 import { setDescription, setPriority, setTitle } from '../../redux/newTask-reducer';
+import EditTaskModal from './EditTaskModal/EditTaskModal';
 import NewTaskMaodal from './NewTaskMaodal/NewTaskModal';
 import './TaskPage.css'
 
 const TaskPage = () => {
     const dispatch = useDispatch();
-    const tasks = useSelector(state => state.taskPage.tasks)
+    const tasks = useSelector(state => state.taskPage.tasks);
+
+    const title = useSelector(state => state.editTaskModal.title);
+    const description = useSelector(state => state.editTaskModal.description);
+    const priority = useSelector(state => state.editTaskModal.priority);
 
     useEffect(() => {
         dispatch(getTasks());
@@ -17,6 +22,8 @@ const TaskPage = () => {
     }, [])
 
     const [show, setShow] = useState(false);
+    const [editShow, setEditShow] = useState(false);
+    const [id, setId] = useState(0);
 
     const handleClose = () => {
         setShow(false);
@@ -25,7 +32,18 @@ const TaskPage = () => {
         dispatch(setPriority(""));
 
     }
+    
+    const editHandleClose = () => {
+        setEditShow(false);
+    }
+
     const handleShow = () => setShow(true);
+    
+    const editHandleShow = (id) => {
+        dispatch(getTask(id));
+        setId(id);
+        setEditShow(true);
+    }
 
     const taskComleted = (id) => {
         dispatch(completed(id));
@@ -38,6 +56,7 @@ const TaskPage = () => {
     return (
         <div className="container">
             <NewTaskMaodal show={show} handleClose={handleClose} />
+            <EditTaskModal show={editShow} handleClose={editHandleClose} title={title} description={description} priority={priority} id={id}/>
             <div className='search-block'>
                 <input type='search'
                     placeholder='Search...'
@@ -67,7 +86,7 @@ const TaskPage = () => {
                                     <Circle onClick={() => taskComleted(t.id)} className='btn-completed' />
                                 }
                             </div>
-                            <div className='task-body'>
+                            <div onClick={() => editHandleShow(t.id)} className='task-body'>
                                 <div key={t.id}>
                                     {!t.isCompleted ?
                                         <div>

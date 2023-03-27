@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
-import { ArrowRight, CheckCircle, Circle } from 'react-bootstrap-icons';
+import { CheckCircle, Circle } from 'react-bootstrap-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { completed, getTasks, notCompleted } from '../../asyncAction/task';
 import { setDescription, setPriority, setTitle } from '../../redux/newTask-reducer';

@@ -1,4 +1,5 @@
 import { React } from 'react'
+import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,6 +48,7 @@ const NewTaskMaodal = (props) => {
                             value={title}
                             onChange={onTitleChange}
                             placeholder='Название задачи'
+                            required
                             className='new-task-form__input'>
                         </input>
 
@@ -59,14 +61,11 @@ const NewTaskMaodal = (props) => {
                             className='new-task-form__input'>
                         </input>
 
-                        <input type='priority'
-                            id='priority'
-                            name='priority'
-                            value={priority}
-                            onChange={onPriorityChange}
-                            placeholder='Приоритет'
-                            className='new-task-form__input'>
-                        </input>
+                        <Form.Select aria-label="Приоритет" className='new-task-form__input' onChange={onPriorityChange}>
+                            <option value="1">Приоритет: 1</option>
+                            <option value="2">Приоритет: 2</option>
+                            <option value="3">Приоритет: 3</option>
+                        </Form.Select>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>

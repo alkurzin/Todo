@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
+import { ArrowRight, CheckCircle, Circle } from 'react-bootstrap-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTasks } from '../../asyncAction/task';
+import { completed, getTasks, notCompleted } from '../../asyncAction/task';
 import { setDescription, setPriority, setTitle } from '../../redux/newTask-reducer';
 import NewTaskMaodal from './NewTaskMaodal/NewTaskModal';
 import './TaskPage.css'
@@ -25,10 +26,18 @@ const TaskPage = () => {
 
     }
     const handleShow = () => setShow(true);
-    
+
+    const taskComleted = (id) => {
+        dispatch(completed(id));
+    }
+
+    const taskNotCompleted = (id) => {
+        dispatch(notCompleted(id));
+    }
+
     return (
         <div className="container">
-            <NewTaskMaodal show={show} handleClose={handleClose}/>
+            <NewTaskMaodal show={show} handleClose={handleClose} />
             <div className='search-block'>
                 <input type='search'
                     placeholder='Search...'
@@ -51,14 +60,24 @@ const TaskPage = () => {
                 {
                     tasks.map(t =>
                         <div className='task'>
-                            <div className='complited'>
-                                <button className='btn-complited'></button>
+                            <div className='completed'>
+                                {t.isCompleted ?
+                                    <CheckCircle onClick={() => taskNotCompleted(t.id)} className='btn-completed-check' />
+                                    :
+                                    <Circle onClick={() => taskComleted(t.id)} className='btn-completed' />
+                                }
                             </div>
                             <div className='task-body'>
                                 <div key={t.id}>
-                                    <div className='title'>{t.title}</div>
-                                    <div className='description'>{t.description}</div>
-                                    <div className='priority'>Приоритет: {t.priority}</div>
+                                    {!t.isCompleted ?
+                                        <div>
+                                            <div className='title'>{t.title}</div>
+                                            <div className='description'>{t.description}</div>
+                                            <div className='priority'>Приоритет: {t.priority}</div>
+                                        </div>
+                                        :
+                                        <div className='title-comleted'>{t.title}</div>
+                                    }
                                     <div className="hr-line"></div>
                                 </div>
                             </div>

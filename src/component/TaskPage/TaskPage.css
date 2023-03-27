@@ -2,13 +2,13 @@
     margin:0 10% 0 10%;
     padding: 20px;
     width:80%;
-    height: 93vh;
+    min-height: 93vh;
     border-left: 1px solid #E8E8E8;
     border-right: 1px solid #E8E8E8;
     background-color: white;
 }
 
-.task{
+.task {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -17,36 +17,48 @@
     width: 60%;
 }
 
-.task:hover > .complited{
+.task:hover > .completed {
     display: block;
 }
 
-.title{
+.title {
     font-size: 20px;
 }
 
-.description{
+.title-comleted {
+    font-size: 20px;
+    color: green;
+    text-decoration: line-through;
+}
+
+.description {
     font-size: 15px;
     color: darkgray;
 }
 
-.priority{
+.priority {
     font-size: 15px;
 }
 
-.complited {
+.completed {
     flex: 0 0 0;
     display: none;
 }
 
-.btn-complited {
+.btn-completed {
     height: 20px;
     width: 20px;
     margin-top: 5px;
     margin-right: 10px;
-    border-radius: 50%;
-    border: 1px solid black;
-    background-color: white;
+    cursor: pointer;
+}
+
+.btn-completed-check {
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+    margin-right: 10px;
+    color: green;
     cursor: pointer;
 }
 

@@ -22,3 +22,17 @@ export const newTaskCreate = (title, description, priority) => {
     }
 }
 
+export const completed = (id) => {
+    return async dispatch => {
+        await request.put('/Task/Completed?Id=' + id)
+        .then(res => dispatch(getTasks()))
+    }
+}
+
+export const notCompleted = (id) => {
+    return async dispatch => {
+        await request.put('/Task/NotCompleted?Id=' + id)
+        .then(res => dispatch(getTasks()))
+    }
+}
+

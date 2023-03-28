@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
-import { CheckCircle, Circle } from 'react-bootstrap-icons';
+import { CheckCircle, Circle, Trash3 } from 'react-bootstrap-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { completed, getTask, getTasks, notCompleted } from '../../asyncAction/task';
+import { completed, deleteTasks, getTask, getTasks, notCompleted } from '../../asyncAction/task';
 import { setDescription, setPriority, setTitle } from '../../redux/newTask-reducer';
 import EditTaskModal from './EditTaskModal/EditTaskModal';
 import NewTaskMaodal from './NewTaskMaodal/NewTaskModal';
@@ -29,16 +29,19 @@ const TaskPage = () => {
         setShow(false);
         dispatch(setTitle(""));
         dispatch(setDescription(""));
-        dispatch(setPriority(""));
+        dispatch(setPriority(1));
 
     }
-    
+
     const editHandleClose = () => {
         setEditShow(false);
+        dispatch(setTitle(""));
+        dispatch(setDescription(""));
+        dispatch(setPriority(1));
     }
 
     const handleShow = () => setShow(true);
-    
+
     const editHandleShow = (id) => {
         dispatch(getTask(id));
         setId(id);
@@ -53,10 +56,14 @@ const TaskPage = () => {
         dispatch(notCompleted(id));
     }
 
+    const deleteTask = (id) => {
+        dispatch(deleteTasks(id));
+    }
+
     return (
         <div className="container">
             <NewTaskMaodal show={show} handleClose={handleClose} />
-            <EditTaskModal show={editShow} handleClose={editHandleClose} title={title} description={description} priority={priority} id={id}/>
+            <EditTaskModal show={editShow} handleClose={editHandleClose} title={title} description={description} priority={priority} id={id} />
             <div className='search-block'>
                 <input type='search'
                     placeholder='Search...'
@@ -78,28 +85,34 @@ const TaskPage = () => {
             <div>
                 {
                     tasks.map(t =>
-                        <div className='task'>
-                            <div className='completed'>
-                                {t.isCompleted ?
-                                    <CheckCircle onClick={() => taskNotCompleted(t.id)} className='btn-completed-check' />
-                                    :
-                                    <Circle onClick={() => taskComleted(t.id)} className='btn-completed' />
-                                }
-                            </div>
-                            <div onClick={() => editHandleShow(t.id)} className='task-body'>
-                                <div key={t.id}>
-                                    {!t.isCompleted ?
-                                        <div>
-                                            <div className='title'>{t.title}</div>
-                                            <div className='description'>{t.description}</div>
-                                            <div className='priority'>Приоритет: {t.priority}</div>
-                                        </div>
+                        <div>
+                            <div className='task'>
+                                <div className='completed'>
+                                    {t.isCompleted ?
+                                        <CheckCircle onClick={() => taskNotCompleted(t.id)} className='btn-completed-check' />
                                         :
-                                        <div className='title-comleted'>{t.title}</div>
+                                        <Circle onClick={() => taskComleted(t.id)} className='btn-completed' />
                                     }
-                                    <div className="hr-line"></div>
+                                </div>
+                                <div onClick={() => editHandleShow(t.id)} className='task-body'>
+                                    <div key={t.id}>
+                                        {!t.isCompleted ?
+                                            <div>
+                                                <div className='title'>{t.title}</div>
+                                                <div className='description'>{t.description}</div>
+                                                <div className='priority'>Приоритет: {t.priority}</div>
+                                            </div>
+                                            :
+                                            <div className='title-comleted'>{t.title}</div>
+                                        }
+
+                                    </div>
+                                </div>
+                                <div className='btn-delete'>
+                                    <Trash3 onClick={() => deleteTask(t.id)}/>
                                 </div>
                             </div>
+                            <div className="hr-line"></div>
                         </div>
                     )
                 }

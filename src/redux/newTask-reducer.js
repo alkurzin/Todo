@@ -5,7 +5,7 @@ const SET_PRIORITY = "SET_PRIORITY";
 let initialState = {
     title: "",
     description: "",
-    priority: ""
+    priority: 1
 }
 
 const newTaskReducer = (state = initialState, action) => {

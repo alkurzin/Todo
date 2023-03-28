@@ -61,3 +61,9 @@ export const notCompleted = (id) => {
     }
 }
 
+export const deleteTasks = (id) => {
+    return async dispatch => {
+        await request.delete('/Task/?Id=' + id)
+        .then(res => dispatch(getTasks()))
+    }
+}

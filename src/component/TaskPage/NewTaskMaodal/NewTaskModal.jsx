@@ -48,7 +48,6 @@ const NewTaskMaodal = (props) => {
                             value={title}
                             onChange={onTitleChange}
                             placeholder='Название задачи'
-                            required
                             className='new-task-form__input'>
                         </input>
 

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { completed, deleteTasks, getTasks, notCompleted } from '../../asyncAction/task';
 import { setDescription, setPriority, setTitle } from '../../redux/newTask-reducer';
+import { setSearchString } from '../../redux/task-reducer';
 import EditTaskModal from './EditTaskModal/EditTaskModal';
 import NewTaskMaodal from './NewTaskMaodal/NewTaskModal';
 import './TaskPage.css'
@@ -12,13 +13,22 @@ import './TaskPage.css'
 const TaskPage = (props) => {
     const dispatch = useDispatch();
     const tasks = useSelector(state => state.taskPage.tasks);
-
-
+    const searchString = useSelector(state => state.taskPage.searchString);
 
     useEffect(() => {
-        dispatch(getTasks());
+        dispatch(getTasks(""));
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [])
+
+    const onUpdateSearchString = (e) => {
+        dispatch(setSearchString(e.target.value));
+    }
+
+    let onKeyDown = e => {
+        if (e.keyCode === 13) {
+            dispatch(getTasks(searchString));
+        }
+    }
 
     const [show, setShow] = useState(false);
 
@@ -67,9 +77,9 @@ const TaskPage = (props) => {
                 <input type='search'
                     placeholder='Search...'
                     className='search_string'
-                    // onKeyDown={onKeyDown}
-                    value="asdas"//{props.searchString}
-                //onChange={onUpdateSearchString} 
+                    onKeyDown={onKeyDown}
+                    value={searchString}
+                    onChange={onUpdateSearchString} 
                 />
                 <div className='cancel-btn-block'>
                     {/* <p className='cancel-btn' onClick={(e) => { onCancel(); }}>очистить</p> */}

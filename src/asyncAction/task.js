@@ -2,9 +2,9 @@ import { setDescription, setPriority, setTitle } from "../redux/editTask-reducer
 import { setTasks } from "../redux/task-reducer"
 import request from "../requests/request"
 
-export const getTasks = () => {
+export const getTasks = (searchString) => {
     return async dispatch => {
-        await request.get(`Task?UserId=` + localStorage.getItem('userId'))
+        await request.get(`Task?UserId=` + localStorage.getItem('userId') + `&SearchString=` + searchString)
             .then(data => {
                 dispatch(setTasks(data.data))
             });

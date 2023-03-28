@@ -16,8 +16,8 @@ function App() {
           <Header />
           <div className='content'>
             <Routes>
-              <Route path="/" element={<TaskPage />} />
-              <Route path="/*" element={<NotFoundPage />} />
+              <Route path="/" element={<TaskPage show={false}/>} />
+              <Route path="/:id" element={<TaskPage show={true} />} />
             </Routes>
           </div>
         </div>

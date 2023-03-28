@@ -2,19 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap';
 import { CheckCircle, Circle, Trash3 } from 'react-bootstrap-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { completed, deleteTasks, getTask, getTasks, notCompleted } from '../../asyncAction/task';
+import { useNavigate } from 'react-router-dom';
+import { completed, deleteTasks, getTasks, notCompleted } from '../../asyncAction/task';
 import { setDescription, setPriority, setTitle } from '../../redux/newTask-reducer';
 import EditTaskModal from './EditTaskModal/EditTaskModal';
 import NewTaskMaodal from './NewTaskMaodal/NewTaskModal';
 import './TaskPage.css'
 
-const TaskPage = () => {
+const TaskPage = (props) => {
     const dispatch = useDispatch();
     const tasks = useSelector(state => state.taskPage.tasks);
 
-    const title = useSelector(state => state.editTaskModal.title);
-    const description = useSelector(state => state.editTaskModal.description);
-    const priority = useSelector(state => state.editTaskModal.priority);
+
 
     useEffect(() => {
         dispatch(getTasks());
@@ -22,8 +21,6 @@ const TaskPage = () => {
     }, [])
 
     const [show, setShow] = useState(false);
-    const [editShow, setEditShow] = useState(false);
-    const [id, setId] = useState(0);
 
     const handleClose = () => {
         setShow(false);
@@ -33,19 +30,10 @@ const TaskPage = () => {
 
     }
 
-    const editHandleClose = () => {
-        setEditShow(false);
-        dispatch(setTitle(""));
-        dispatch(setDescription(""));
-        dispatch(setPriority(1));
-    }
-
     const handleShow = () => setShow(true);
 
     const editHandleShow = (id) => {
-        dispatch(getTask(id));
-        setId(id);
-        setEditShow(true);
+        routeChange(id);
     }
 
     const taskComleted = (id) => {
@@ -60,10 +48,21 @@ const TaskPage = () => {
         dispatch(deleteTasks(id));
     }
 
+    let navigate = useNavigate();
+
+    const routeChange = (id) =>{
+      let path = `/${id}`;
+      navigate(path);
+    }
+
     return (
         <div className="container">
             <NewTaskMaodal show={show} handleClose={handleClose} />
-            <EditTaskModal show={editShow} handleClose={editHandleClose} title={title} description={description} priority={priority} id={id} />
+            {props.show ? 
+                <EditTaskModal show={props.show} />
+                :
+                <div></div>
+            }
             <div className='search-block'>
                 <input type='search'
                     placeholder='Search...'

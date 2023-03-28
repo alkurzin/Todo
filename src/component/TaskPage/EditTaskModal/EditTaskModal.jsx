@@ -1,17 +1,25 @@
-import { React } from 'react'
+import { React, useEffect } from 'react'
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useDispatch} from 'react-redux';
-import { editTask } from '../../../asyncAction/task';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { editTask, getTask } from '../../../asyncAction/task';
 import { setDescription, setPriority, setTitle } from '../../../redux/editTask-reducer';
 
 const EditTaskModal = (props) => {
     const dispatch = useDispatch();
 
-    const title = props.title;
-    const description = props.description;
-    const priority = props.priority;
+    const { id } = useParams();
+    
+    const title = useSelector(state => state.editTaskModal.title);
+    const description = useSelector(state => state.editTaskModal.description);
+    const priority = useSelector(state => state.editTaskModal.priority);
+
+    useEffect(() => {
+        dispatch(getTask(id));
+        /* eslint-disable-next-line react-hooks/exhaustive-deps */
+    }, [id])
 
     let onTitleChange = (e) => {
         let newTitle = e.target.value;
@@ -30,13 +38,23 @@ const EditTaskModal = (props) => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        dispatch(editTask(props.id, title, description, priority));
-        props.handleClose();
+        dispatch(editTask(id, title, description, priority));
+        handleClose();
+    }
+
+    let navigate = useNavigate();
+
+    const handleClose = () => {
+        dispatch(setTitle(""));
+        dispatch(setDescription(""));
+        dispatch(setPriority(1));
+        navigate(`/`);
+
     }
 
     return (
         <div>
-            <Modal show={props.show} onHide={props.handleClose}>
+            <Modal show={props.show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Задача</Modal.Title>
                 </Modal.Header>
@@ -69,7 +87,7 @@ const EditTaskModal = (props) => {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={props.handleClose}>
+                    <Button variant="secondary" onClick={handleClose}>
                         Отменить
                     </Button>
                     <Button variant="primary" onClick={handleSubmit}>

@@ -30,7 +30,7 @@ export const newTaskCreate = (title, description, priority) => {
             description: description,
             priority: priority
         })
-        .then(res => dispatch(getTasks()))
+        .then(res => dispatch(getTasks("")))
     }
 }
 
@@ -42,7 +42,7 @@ export const editTask = (id, title, description, priority) => {
             description: description,
             priority: priority
         })
-        .then(res => dispatch(getTasks()))
+        .then(res => dispatch(getTasks("")))
     }
 }
 
@@ -50,20 +50,20 @@ export const editTask = (id, title, description, priority) => {
 export const completed = (id) => {
     return async dispatch => {
         await request.put('/Task/Completed?Id=' + id)
-        .then(res => dispatch(getTasks()))
+        .then(res => dispatch(getTasks("")))
     }
 }
 
 export const notCompleted = (id) => {
     return async dispatch => {
         await request.put('/Task/NotCompleted?Id=' + id)
-        .then(res => dispatch(getTasks()))
+        .then(res => dispatch(getTasks("")))
     }
 }
 
 export const deleteTasks = (id) => {
     return async dispatch => {
         await request.delete('/Task/?Id=' + id)
-        .then(res => dispatch(getTasks()))
+        .then(res => dispatch(getTasks("")))
     }
 }

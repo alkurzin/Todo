@@ -39,3 +39,8 @@
 .content {
   background-color: #f5f4f4cb;
 }
+
+.loader {
+  margin:20% 45% 0 45%;
+  width:10%;
+}
